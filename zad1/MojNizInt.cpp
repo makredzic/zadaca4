@@ -40,3 +40,6 @@ MojNizInt& MojNizInt::operator=(MojNizInt&& drugi) {
 
   return *this;
 }
+
+
+

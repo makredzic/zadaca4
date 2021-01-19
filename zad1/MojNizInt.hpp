@@ -18,6 +18,8 @@ class MojNizInt {
     size_t size() const {return n_;} 
     int at(const size_t& i) const;
 
+    int& operator[](size_t&& i) const {return p_[i];};
+
   private:
     size_t n_{0};
     int* p_{nullptr};
