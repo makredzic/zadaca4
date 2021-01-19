@@ -1,5 +1,6 @@
 #include "MojNizInt.hpp"
 #include <stdexcept>
+#include <vector>
 
 int MojNizInt::at(const size_t &i) const {
   if (i > n_-1) throw std::invalid_argument("Pokusaj pristupa kontejneru van granica");
@@ -41,5 +42,26 @@ MojNizInt& MojNizInt::operator=(MojNizInt&& drugi) {
   return *this;
 }
 
+//ovaj operator ne radi trenutno
+//Mozda prvo napravit implementaciju operatora *= i onda pomocu nje operator*
+MojNizInt MojNizInt::operator*(int&& i) {
+  return MojNizInt{}; //vrati novi objekat tipa MojNizInt koji je prazan
+
+  //nije zakomentarisano jer ce se oginuti return gore odmah
+  //Kod ispod alocira novi blockmemorije na heapu sa elementima pomnozenim sa i
+  //medjutim ne znam kako instancirat novi objekat MojNizInt sa tim novim elementima
+  int* temp = p_; 
+  std::vector<int> vec;
+  
+  for (int j = 0; j < n_; j++) {
+    int x = *temp;
+    vec.push_back(x*i);
+    temp++; //incrementira se temp odnosno pointer se pomjeri na sljedeci elemenat u memorij
+  }
+  
+  int* ptr_arr = new int[n_];
+  std::copy(vec.begin(), vec.end(), ptr_arr);
+  return MojNizInt{};
+}
 
 
