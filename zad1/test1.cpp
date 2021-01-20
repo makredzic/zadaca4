@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-// #include "MojNizInt.hpp"
+#include "MojNizInt.hpp"
 
 #include <initializer_list>
 
@@ -38,7 +38,7 @@ TEST_CASE("Expects to have const access to at and size method") {
 TEST_CASE(
     "Expects at method to be able to modify the object within MojNizInt") {
   MojNizInt mojNiz{1, 2, 3, 4, 5, 6};
-  mojNiz.at(3) = 19;
+  mojNiz.at(3) =  19;
   CHECK_EQ(mojNiz.size(), 6);
   CHECK_EQ(mojNiz.at(3), 19);
   for (auto i = 0; i < 3; ++i) CHECK_EQ(mojNiz.at(i), i + 1);

@@ -71,6 +71,11 @@ MojNizInt operator*(MojNizInt a, const int& i) {
   return a; 
 }
 
+MojNizInt operator*(const int& i, MojNizInt a) {
+  a*=i;
+  return a;
+}
+
 MojNizInt& MojNizInt::operator+=(const MojNizInt& drugi) {
   if (n_ != drugi.n_) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
   for (int i = 0; i < n_; i++) p_[i] += drugi.p_[i]; 
@@ -96,3 +101,18 @@ MojNizInt& MojNizInt::operator++() {
   for (int i = 0; i < n_; i++) p_[i]+=1;
   return *this;
 }
+
+void MojNizInt::push_back(const int& k) {
+
+  int* p2 = new int[size()+1]; //novi pointer koji pokazuje na novi prosireni block memorije
+  std::copy(p_, p_+n_, p2); //u novi block se kopiraju vrijednosti iz starog p_
+
+  n_++; //de ba
+
+  delete[] p_; //posto p2 pokazuje na novokopirane vrijednosti, izbrisat stari block p_
+  p_ = p2; //sad p_ pokazuje na novi prosireni block koji ima iste vrijednosti samo vise prostora
+  p2 = nullptr; //posto je p2 beskorisno i pokazuje na isto sto i p_, stavit da p2 ne pokazuje ni na sta
+
+  p_[n_] = k; //p_ pokazuje na novi block koji ima mjesta na kraju za jos jedan int i sad se postavi taj zadnji int na vrijednost k
+}
+
