@@ -14,12 +14,19 @@ class MojNizInt {
     MojNizInt& operator=(const MojNizInt&); //copy jednako
     MojNizInt& operator=(MojNizInt&&); 
 
-    ~MojNizInt() {delete []p_;}; //destruktor
+    ~MojNizInt() {delete[] p_;}; //destruktor
     size_t size() const {return n_;} 
     int at(const size_t& i) const;
 
     int& operator[](size_t&& i) const {return p_[i];};
-    MojNizInt operator*(int&&);
+
+    //MojNizInt operator*(int&&); //ovo slobodno ignorisi
+    MojNizInt& operator*=(const int& i) {for(int j =0; j<n_; j++) p_[j]*=i; return *this;};
+    MojNizInt& operator+=(const MojNizInt&);
+
+    MojNizInt operator++(int); //postfix++ il ti ga sufix
+    MojNizInt& operator++(); //++prefix
+
 
   private:
     size_t n_{0};

@@ -42,6 +42,7 @@ MojNizInt& MojNizInt::operator=(MojNizInt&& drugi) {
   return *this;
 }
 
+/*
 //ovaj operator ne radi trenutno
 //Mozda prvo napravit implementaciju operatora *= i onda pomocu nje operator*
 MojNizInt MojNizInt::operator*(int&& i) {
@@ -63,5 +64,35 @@ MojNizInt MojNizInt::operator*(int&& i) {
   std::copy(vec.begin(), vec.end(), ptr_arr);
   return MojNizInt{};
 }
+*/
 
+MojNizInt operator*(MojNizInt a, const int& i) {
+  a*=i; 
+  return a; 
+}
 
+MojNizInt& MojNizInt::operator+=(const MojNizInt& drugi) {
+  if (n_ != drugi.n_) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
+  for (int i = 0; i < n_; i++) p_[i] += drugi.p_[i]; 
+  return *this;
+}
+
+MojNizInt operator+(MojNizInt a, const MojNizInt& drugi) {
+  try {
+    a+=drugi;
+  } catch(const std::invalid_argument& e) {
+    throw e; //ne znam sad ni sta cu s ovim ali mislim da nije ni bitno trenutno
+  }
+  return a;
+}
+
+MojNizInt MojNizInt::operator++(int) {
+  MojNizInt drugi{*this};
+  for (int i = 0; i<n_; i++) drugi.p_[i] += 1;
+  return drugi;
+}
+
+MojNizInt& MojNizInt::operator++() {
+  for (int i = 0; i < n_; i++) p_[i]+=1;
+  return *this;
+}
