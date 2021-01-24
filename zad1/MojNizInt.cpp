@@ -2,13 +2,13 @@
 #include <stdexcept>
 #include <vector>
 
-int MojNizInt::at(const size_t &i) const {
-  if (i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
+int MojNizInt::at(const int &i) const {
+  if (i < 0 || i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 
-int& MojNizInt::at(const size_t &i) {
-  if (i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
+int& MojNizInt::at(const int &i) {
+  if (i < 0 || i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 

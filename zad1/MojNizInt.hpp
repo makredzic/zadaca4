@@ -17,8 +17,8 @@ class MojNizInt {
     ~MojNizInt() {delete[] p_;}; //destruktor
     size_t size() const {return n_;} 
 
-    int at(const size_t& i) const;
-    int& at(const size_t& i); //ovo je potrebno kako bi se moglo promijeniti vrijednost sa at
+    int at(const int& i) const;
+    int& at(const int& i); //ovo je potrebno kako bi se moglo promijeniti vrijednost sa at
 
     int& operator[](const size_t& i) const {return p_[i];};
 
