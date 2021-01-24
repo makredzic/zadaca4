@@ -3,7 +3,12 @@
 #include <vector>
 
 int MojNizInt::at(const size_t &i) const {
-  if (i > n_-1) throw std::invalid_argument("Pokusaj pristupa kontejneru van granica");
+  if (i > int(n_)-1) throw std::invalid_argument("Pokusaj pristupa kontejneru van granica");
+  return *(p_+i);
+}
+
+int& MojNizInt::at(const size_t &i) {
+  if (i > int(n_)-1) throw std::invalid_argument("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 
@@ -42,30 +47,6 @@ MojNizInt& MojNizInt::operator=(MojNizInt&& drugi) {
   return *this;
 }
 
-/*
-//ovaj operator ne radi trenutno
-//Mozda prvo napravit implementaciju operatora *= i onda pomocu nje operator*
-MojNizInt MojNizInt::operator*(int&& i) {
-  return MojNizInt{}; //vrati novi objekat tipa MojNizInt koji je prazan
-
-  //nije zakomentarisano jer ce se oginuti return gore odmah
-  //Kod ispod alocira novi blockmemorije na heapu sa elementima pomnozenim sa i
-  //medjutim ne znam kako instancirat novi objekat MojNizInt sa tim novim elementima
-  int* temp = p_; 
-  std::vector<int> vec;
-  
-  for (int j = 0; j < n_; j++) {
-    int x = *temp;
-    vec.push_back(x*i);
-    temp++; //incrementira se temp odnosno pointer se pomjeri na sljedeci elemenat u memorij
-  }
-  
-  int* ptr_arr = new int[n_];
-  std::copy(vec.begin(), vec.end(), ptr_arr);
-  return MojNizInt{};
-}
-*/
-
 MojNizInt operator*(MojNizInt a, const int& i) {
   a*=i; 
   return a; 
@@ -78,7 +59,7 @@ MojNizInt operator*(const int& i, MojNizInt a) {
 
 MojNizInt& MojNizInt::operator+=(const MojNizInt& drugi) {
   if (n_ != drugi.n_) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
-  for (int i = 0; i < n_; i++) p_[i] += drugi.p_[i]; 
+  for (size_t i = 0; i < n_; i++) p_[i] += drugi.p_[i]; 
   return *this;
 }
 
@@ -93,12 +74,12 @@ MojNizInt operator+(MojNizInt a, const MojNizInt& drugi) {
 
 MojNizInt MojNizInt::operator++(int) {
   MojNizInt drugi{*this};
-  for (int i = 0; i<n_; i++) drugi.p_[i] += 1;
+  for (size_t i = 0; i<n_; i++) drugi.p_[i] += 1;
   return drugi;
 }
 
 MojNizInt& MojNizInt::operator++() {
-  for (int i = 0; i < n_; i++) p_[i]+=1;
+  for (size_t i = 0; i < n_; i++) p_[i]+=1;
   return *this;
 }
 

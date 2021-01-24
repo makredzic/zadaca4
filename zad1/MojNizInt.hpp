@@ -23,7 +23,7 @@ class MojNizInt {
     int& operator[](const size_t& i) const {return p_[i];};
 
     //MojNizInt operator*(int&&); //ovo slobodno ignorisi
-    MojNizInt& operator*=(const int& i) {for(int j =0; j<n_; j++) p_[j]*=i; return *this;};
+    MojNizInt& operator*=(const int& i) {for(size_t j =0; j<n_; j++) p_[j]*=i; return *this;};
     MojNizInt& operator+=(const MojNizInt&);
 
     MojNizInt operator++(int); //postfix++ il ti ga sufix
