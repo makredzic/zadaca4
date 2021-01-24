@@ -3,12 +3,12 @@
 #include <vector>
 
 int MojNizInt::at(const size_t &i) const {
-  if (i > int(n_)-1) throw std::invalid_argument("Pokusaj pristupa kontejneru van granica");
+  if (i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 
 int& MojNizInt::at(const size_t &i) {
-  if (i > int(n_)-1) throw std::invalid_argument("Pokusaj pristupa kontejneru van granica");
+  if (i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 
@@ -74,7 +74,7 @@ MojNizInt operator+(MojNizInt a, const MojNizInt& drugi) {
 
 MojNizInt MojNizInt::operator++(int) {
   MojNizInt drugi{*this};
-  for (size_t i = 0; i<n_; i++) drugi.p_[i] += 1;
+  for (size_t i = 0; i<n_; i++) p_[i] += 1;
   return drugi;
 }
 
@@ -85,15 +85,12 @@ MojNizInt& MojNizInt::operator++() {
 
 void MojNizInt::push_back(const int& k) {
 
-  int* p2 = new int[size()+1]; //novi pointer koji pokazuje na novi prosireni block memorije
-  std::copy(p_, p_+n_, p2); //u novi block se kopiraju vrijednosti iz starog p_
+  int* p2 = new int[size()+1];
+  if(n_ != 0) std::copy(p_, p_+n_, p2);
 
-  n_++; //de ba
-
-  delete[] p_; //posto p2 pokazuje na novokopirane vrijednosti, izbrisat stari block p_
-  p_ = p2; //sad p_ pokazuje na novi prosireni block koji ima iste vrijednosti samo vise prostora
-  p2 = nullptr; //posto je p2 beskorisno i pokazuje na isto sto i p_, stavit da p2 ne pokazuje ni na sta
-
-  p_[n_] = k; //p_ pokazuje na novi block koji ima mjesta na kraju za jos jedan int i sad se postavi taj zadnji int na vrijednost k
+  delete[] p_; 
+  p_ = p2; 
+  p2 = nullptr; 
+  p_[n_++] = k; 
 }
 
