@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-// #include "MojNiz.hpp"
+#include "MojNiz.hpp"
 
 TEST_CASE("Expects to construct MojNiz from MojNiz of different inner type") {
   MojNiz<double> mojNiz1{1.1, 1.6, 2.7, 2.9};
