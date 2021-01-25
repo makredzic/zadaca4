@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-// #include "MojNizInt.hpp"
+#include "MojNizInt.hpp"
 //
 // WARNING: When start implementing test below, comment last test in test1.cpp
 // since it won't be valid anymore!!!
