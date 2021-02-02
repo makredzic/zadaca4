@@ -1,6 +1,5 @@
+#pragma once
 #include "MojNiz.hpp"
-#include <stdexcept>
-#include <vector>
 
 template <typename T>
 T MojNiz<T>::at(const int &i) const {
@@ -15,11 +14,11 @@ T& MojNiz<T>::at(const int &i) {
 }
 
 template<typename T>
-MojNiz<T>::MojNiz(const MojNiz &drugi) 
-  : c_{drugi.c_}, n_{drugi.n_}, p_{new int[c_]} {
+template<typename U>
+MojNiz<T>::MojNiz(const MojNiz<U> &drugi) 
+  : c_{drugi.c_}, n_{drugi.n_}, p_{new T[c_]} {
 
-  std::copy(drugi.p_, drugi.p_ + drugi.n_, p_);
-
+  for (size_t i = 0; i < drugi.n_; i++) p_[i] = T(drugi.p_[i]);
 }
 
 template<typename T>
@@ -31,16 +30,17 @@ MojNiz<T>::MojNiz(MojNiz&& drugi)
 }
 
 template<typename T>
-MojNiz<T>& MojNiz<T>::operator=(const MojNiz& drugi) {
+template<typename U>
+MojNiz<T>& MojNiz<T>::operator=(const MojNiz<U>& drugi) {
   if (this == &drugi) return *this;
 
   delete [] p_;
 
   n_ = drugi.n_; 
   c_ = drugi.c_;
-  p_ = new int[c_];
+  p_ = new T[c_];
 
-  std::copy(drugi.p_, drugi.p_ + drugi.n_, p_);
+  for (size_t i = 0; i < drugi.n_; i++) p_[i] = T(drugi.p_[i]);
   return *this;
 }
 
@@ -72,14 +72,17 @@ MojNiz<T> operator*(const int& i, MojNiz<T> a) {
 }
 
 template<typename T>
-MojNiz<T>& MojNiz<T>::operator+=(const MojNiz& drugi) {
+template<typename U>
+MojNiz<T>& MojNiz<T>::operator+=(const MojNiz<U>& drugi) {
   if (n_ != drugi.n_) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
+
   for (size_t i = 0; i < n_; i++) p_[i] += drugi.p_[i]; 
   return *this;
+
 }
 
-template <typename T>
-MojNiz<T> operator+(MojNiz<T> a, const MojNiz<T>& drugi) {
+template <typename T, typename U>
+MojNiz<T> operator+(const MojNiz<T> a, const MojNiz<U>& drugi) {
   try {
     a+=drugi;
   } catch(const std::invalid_argument& e) {

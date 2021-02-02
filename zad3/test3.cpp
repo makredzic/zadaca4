@@ -1,7 +1,11 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 #include "doctest.h"
 
-#include "MojNiz.hpp"
+#include "MojNiz.cpp" //posto separatno kompajliranje
+//ne radi vise kako smo ucili na preadvanju, ovdje je sva funkcionanost
+//svih metoda definisana u ovom cpp file-u pa umjesto da se on separatno
+//kompajlira u .o file, on ce se include-at ovdje sto nije najbrzi nacin
+//ali makar radi
 
 TEST_CASE("Expects to construct MojNiz from MojNiz of different inner type") {
   MojNiz<double> mojNiz1{1.1, 1.6, 2.7, 2.9};
