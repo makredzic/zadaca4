@@ -2,31 +2,36 @@
 #include <stdexcept>
 #include <vector>
 
-int MojNiz::at(const int &i) const {
+template <typename T>
+T MojNiz<T>::at(const int &i) const {
   if (i < 0 || i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 
-int& MojNiz::at(const int &i) {
+template<typename T>
+T& MojNiz<T>::at(const int &i) {
   if (i < 0 || i > int(n_)-1) throw std::out_of_range("Pokusaj pristupa kontejneru van granica");
   return *(p_+i);
 }
 
-MojNiz::MojNiz(const MojNiz &drugi) 
+template<typename T>
+MojNiz<T>::MojNiz(const MojNiz &drugi) 
   : c_{drugi.c_}, n_{drugi.n_}, p_{new int[c_]} {
 
   std::copy(drugi.p_, drugi.p_ + drugi.n_, p_);
 
 }
 
-MojNiz::MojNiz(MojNiz&& drugi) 
+template<typename T>
+MojNiz<T>::MojNiz(MojNiz&& drugi) 
   : c_{drugi.c_},  n_{drugi.n_}, p_{drugi.p_} {
   drugi.p_ = nullptr; 
   drugi.n_ = 0; 
   drugi.c_ = 0;
 }
 
-MojNiz& MojNiz::operator=(const MojNiz& drugi) {
+template<typename T>
+MojNiz<T>& MojNiz<T>::operator=(const MojNiz& drugi) {
   if (this == &drugi) return *this;
 
   delete [] p_;
@@ -39,7 +44,8 @@ MojNiz& MojNiz::operator=(const MojNiz& drugi) {
   return *this;
 }
 
-MojNiz& MojNiz::operator=(MojNiz&& drugi) { 
+template<typename T>
+MojNiz<T>& MojNiz<T>::operator=(MojNiz&& drugi) { 
   delete [] p_;
 
   n_ = drugi.n_;
@@ -53,23 +59,27 @@ MojNiz& MojNiz::operator=(MojNiz&& drugi) {
   return *this;
 }
 
-MojNiz operator*(MojNiz a, const int& i) {
+template<typename T>
+MojNiz<T> operator*(MojNiz<T> a, const int& i) {
   a*=i; 
   return a; 
 }
 
-MojNiz operator*(const int& i, MojNiz a) {
+template<typename T>
+MojNiz<T> operator*(const int& i, MojNiz<T> a) {
   a*=i;
   return a;
 }
 
-MojNiz& MojNiz::operator+=(const MojNiz& drugi) {
+template<typename T>
+MojNiz<T>& MojNiz<T>::operator+=(const MojNiz& drugi) {
   if (n_ != drugi.n_) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
   for (size_t i = 0; i < n_; i++) p_[i] += drugi.p_[i]; 
   return *this;
 }
 
-MojNiz operator+(MojNiz a, const MojNiz& drugi) {
+template <typename T>
+MojNiz<T> operator+(MojNiz<T> a, const MojNiz<T>& drugi) {
   try {
     a+=drugi;
   } catch(const std::invalid_argument& e) {
@@ -78,18 +88,21 @@ MojNiz operator+(MojNiz a, const MojNiz& drugi) {
   return a;
 }
 
-MojNiz MojNiz::operator++(int) {
+template<typename T>
+MojNiz<T> MojNiz<T>::operator++(int) {
   MojNiz drugi{*this};
   for (size_t i = 0; i<n_; i++) p_[i] += 1;
   return drugi;
 }
 
-MojNiz& MojNiz::operator++() {
+template<typename T>
+MojNiz<T>& MojNiz<T>::operator++() {
   for (size_t i = 0; i < n_; i++) p_[i]+=1;
   return *this;
 }
 
-void MojNiz::push_back(const int& k) {
+template<typename T>
+void MojNiz<T>::push_back(const T& k) {
 
   if (capacity() < size()+1) {//ako se predje preko kapaciteta dodavanjem 1 novog elementa
     int* p2 = new int[size()*2];
@@ -106,13 +119,13 @@ void MojNiz::push_back(const int& k) {
 
 }
 
-int& MojNiz::front() {
-
+template<typename T>
+T& MojNiz<T>::front() {
   return p_[0];
 }
 
-int& MojNiz::back() {
-
+template<typename T>
+T& MojNiz<T>::back() {
   return p_[n_-1]; //p_[n_] bi vratilo referncu na jedan elemenat van kontejnera
 }
 

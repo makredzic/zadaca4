@@ -42,7 +42,6 @@ class MojNiz {
     T* p_;
 };
 
-/* OVO nisam siguran jel treba nit kako treba pa cu zakomentarisat za sad
 template<typename T>
 MojNiz<T> operator*(MojNiz<T>, const T&);
 
@@ -51,4 +50,14 @@ MojNiz<T> operator*(const T&, MojNiz<T>);
 
 template<typename T>
 MojNiz<T> operator+(MojNiz<T>, const MojNiz<T>& drugi);
-*/
+
+#include "MojNiz.cpp" //separatno kompajliranje koristeno za prve dvije zadace
+//i opcenito kako smo nauceni na predavanjima, ne radi ukoliko je
+//klasa template, jedan od fix-ova za to je da se jednostavno
+//uradi #include cpp file-a na kraju ovog header filea sto ce rezultirat
+//da se prenese citav kod iz cpp file-a u kojem se nalazi implementacija
+//pojedinacnih metoda ove klase i onda umjesto da se separatno kompajlira MojNiz.cpp
+//u glavnom file-u u kojem ce se koristiti ova klasa, treba samo
+//#include "MojNiz.hpp" i to ce povuci sav kod iz ovog file-a
+//koji sadrzi sada i implementaciju pojedinacnih metoda iz MojNiz.cpp
+//zbog ovog #include "MojNiz.cpp"
