@@ -3,12 +3,13 @@
 #include <initializer_list>
 #include <stdexcept>
 #include <vector>
+#include <type_traits>
 
 template <typename T>
 class MojNiz {
   public:
 
-    MojNiz() : c_{1}, n_{0}, p_{new T[1]} {};
+    MojNiz(size_t cap = 1) : c_{cap}, n_{0}, p_{new T[cap]} {};
     MojNiz(std::initializer_list<T> a) : c_{a.size()}, n_{a.size()}, p_{new T[n_]} {std::copy(std::begin(a), std::end(a), p_);}
 
     template<typename U>
@@ -39,10 +40,11 @@ class MojNiz {
     void push_back(const T&);
     void pop_back() {n_-=1;};
 
-    T& front();
-    T& back(); 
+    T& front() {return p_[0];};
+    T& back() {return p_[n_-1];}; 
+    T& front() const {return p_[0];};
+    T& back() const {return p_[n_-1];}; 
   
-  private:
     size_t c_;
     size_t n_;
     T* p_;

@@ -1,4 +1,3 @@
-#pragma once
 #include "MojNiz.hpp"
 
 template <typename T>
@@ -16,9 +15,9 @@ T& MojNiz<T>::at(const int &i) {
 template<typename T>
 template<typename U>
 MojNiz<T>::MojNiz(const MojNiz<U> &drugi) 
-  : c_{drugi.c_}, n_{drugi.n_}, p_{new T[c_]} {
+  : c_{drugi.capacity()}, n_{drugi.size()}, p_{new T[c_]} {
 
-  for (size_t i = 0; i < drugi.n_; i++) p_[i] = T(drugi.p_[i]);
+  for (size_t i = 0; i < drugi.size(); i++) p_[i] = T(drugi[i]);
 }
 
 template<typename T>
@@ -32,15 +31,15 @@ MojNiz<T>::MojNiz(MojNiz&& drugi)
 template<typename T>
 template<typename U>
 MojNiz<T>& MojNiz<T>::operator=(const MojNiz<U>& drugi) {
-  if (this == &drugi) return *this;
+  if (std::is_same<T, U>::value && this == (MojNiz<T>*) &drugi) return *this;
 
   delete [] p_;
 
-  n_ = drugi.n_; 
-  c_ = drugi.c_;
+  n_ = drugi.size(); 
+  c_ = drugi.capacity();
   p_ = new T[c_];
 
-  for (size_t i = 0; i < drugi.n_; i++) p_[i] = T(drugi.p_[i]);
+  for (size_t i = 0; i < drugi.size(); i++) p_[i] = T(drugi[i]);
   return *this;
 }
 
@@ -82,13 +81,14 @@ MojNiz<T>& MojNiz<T>::operator+=(const MojNiz<U>& drugi) {
 }
 
 template <typename T, typename U>
-MojNiz<T> operator+(const MojNiz<T> a, const MojNiz<U>& drugi) {
-  try {
-    a+=drugi;
-  } catch(const std::invalid_argument& e) {
-    throw e; //ne znam sad ni sta cu s ovim ali mislim da nije ni bitno trenutno
-  }
-  return a;
+auto operator+(const MojNiz<T>& a, const MojNiz<U>& drugi) {
+  if (a.size() != drugi.size()) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
+
+  MojNiz<decltype(a.front() + drugi.front())> rezultat{a.size()}; 
+
+  for (size_t i = 0; i < a.size(); i++) rezultat[i] = a[i] + drugi[i]; 
+  rezultat.n_ = a.size();
+  return rezultat;
 }
 
 template<typename T>
@@ -108,7 +108,7 @@ template<typename T>
 void MojNiz<T>::push_back(const T& k) {
 
   if (capacity() < size()+1) {//ako se predje preko kapaciteta dodavanjem 1 novog elementa
-    int* p2 = new int[size()*2];
+    T* p2 = new T[size()*2];
     c_ *= 2;
 
     std::copy(p_, p_+n_, p2);
@@ -121,14 +121,3 @@ void MojNiz<T>::push_back(const T& k) {
   p_[n_++] = k; 
 
 }
-
-template<typename T>
-T& MojNiz<T>::front() {
-  return p_[0];
-}
-
-template<typename T>
-T& MojNiz<T>::back() {
-  return p_[n_-1]; //p_[n_] bi vratilo referncu na jedan elemenat van kontejnera
-}
-
