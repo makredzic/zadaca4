@@ -10,12 +10,7 @@ int main() {
   Matrica<int> b(a);
   std::cout << "Matrica b:" << std::endl << b << std::endl;
 
-  //test1 i test2 ispisi dodani da se pokaze gdje program prestaje raditi
-  std::cout << "Test1" << std::endl;
-
   Matrica<int> c{2, 2, 1, 4, 2, 10};
-
-  std::cout<< "Test2" << std::endl;
   c *= 3;
 
   std::cout << "Matrica c:" << std::endl << c << std::endl;

@@ -107,4 +107,5 @@ std::ostream& operator<<(std::ostream& o, const Matrica<T>& mat) {
     }
     o << std::endl;
   }
+  return o;
 }
