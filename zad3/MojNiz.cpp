@@ -84,10 +84,9 @@ template <typename T, typename U>
 auto operator+(const MojNiz<T>& a, const MojNiz<U>& drugi) {
   if (a.size() != drugi.size()) throw std::invalid_argument("Nizovi koji ucestvuju u operacij sabiranja moraju biti iste duzine");
 
-  MojNiz<decltype(a.front() + drugi.front())> rezultat{a.size()}; 
+  MojNiz<decltype(a.front() + drugi.front())> rezultat(a.size()); 
 
   for (size_t i = 0; i < a.size(); i++) rezultat[i] = a[i] + drugi[i]; 
-  rezultat.n_ = a.size();
   return rezultat;
 }
 
